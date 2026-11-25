@@ -1,0 +1,36 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.The-CodingSloth/slothhub-mcp-server",
+  "title": "SlothHub MCP Server",
+  "description": "Read-only MCP server for searching and browsing SlothHub public catalog feeds.",
+  "repository": {
+    "url": "https://github.com/The-CodingSloth/slothhub-clients",
+    "source": "github"
+  },
+  "version": "0.1.0",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://slothhub.dev/mcp"
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "slothhub-mcp-server",
+      "version": "0.1.0",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "SLOTHHUB_BASE_URL",
+          "description": "Optional SlothHub site origin for local, preview, or production feed reads.",
+          "isRequired": false,
+          "format": "string",
+          "isSecret": false
+        }
+      ]
+    }
+  ]
+}

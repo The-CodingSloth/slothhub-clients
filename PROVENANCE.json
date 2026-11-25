@@ -1,0 +1,9 @@
+{
+  "exportFormat": 1,
+  "source": "Exported from the private SlothHub monorepo; development happens there.",
+  "sourceCommit": "05542765a4c0abcdf0242b3f5ce2a9cc01e3080c",
+  "sourceUncommittedChanges": false,
+  "exportScript": "scripts/release/export-public-clients.mjs",
+  "fileCount": 339,
+  "treeSha256": "a2a4b14ad48b49debf35f9963aa0e295c57b051a86eb3aba56f6b75e78e41e30"
+}

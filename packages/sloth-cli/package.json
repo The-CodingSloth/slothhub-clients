@@ -1,0 +1,59 @@
+{
+  "name": "@slothhub/cli",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Official SlothHub command-line interface for static catalog feeds.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/The-CodingSloth/slothhub-clients.git",
+    "directory": "packages/sloth-cli"
+  },
+  "homepage": "https://github.com/The-CodingSloth/slothhub-clients/tree/main/packages/sloth-cli#readme",
+  "bugs": {
+    "url": "https://github.com/The-CodingSloth/slothhub-clients/issues"
+  },
+  "bin": {
+    "slothhub": "./dist/bin/slothhub.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist/**/*.js",
+    "dist/index.d.ts",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "provenance": true,
+    "registry": "https://registry.npmjs.org/"
+  },
+  "scripts": {
+    "build": "vp run build:library",
+    "test": "vp run test:all",
+    "type-check": "node ../../tools/check-types.mjs ./node_modules/typescript-7/bin/tsc --noEmit -p tsconfig.json"
+  },
+  "engines": {
+    "node": ">=22.22.0"
+  },
+  "dependencies": {
+    "split2": "^4.2.0",
+    "yaml": "2.9.1",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "26.6.4",
+    "@types/split2": "^4.2.3",
+    "esbuild": "^0.28.2",
+    "typescript-7": "npm:typescript@^7.0.2",
+    "vite-plus": "catalog:",
+    "vitest": "catalog:",
+    "@slothhub/domain": "workspace:*"
+  }
+}

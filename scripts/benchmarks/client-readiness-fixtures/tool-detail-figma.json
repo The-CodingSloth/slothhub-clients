@@ -1,0 +1,87 @@
+{
+  "version": "33.0.0",
+  "siteUrl": "https://slothhub.dev",
+  "generatedAt": "2026-10-13T18:11:51.224Z",
+  "data": {
+    "name": "Figma",
+    "slug": "figma",
+    "description": "Collaborative design and developer handoff with paid seat types.",
+    "resourceKind": {
+      "value": "app",
+      "label": "App"
+    },
+    "resourceIdentity": {
+      "kind": "website",
+      "kindLabel": "Website",
+      "canonicalUrl": "https://www.figma.com/",
+      "ctaLabel": "Open website"
+    },
+    "pricing": "freemium",
+    "platforms": [
+      "web"
+    ],
+    "categories": [],
+    "tags": [],
+    "useCases": [],
+    "freshness": {
+      "isVerified": false
+    },
+    "detailUrl": "https://slothhub.dev/tool/figma",
+    "visitUrl": "https://slothhub.dev/go/figma",
+    "keyFeatures": [],
+    "fitGuidance": {
+      "bestFor": [],
+      "notIdealFor": [],
+      "keyTradeoffs": [
+        "Professional annual teams can also have monthly paid seats; the general terms cannot establish an individual purchase entitlement."
+      ],
+      "primaryDecisionCriteria": [],
+      "recommendedNextStep": "Check the team billing cycle and continue the existing support request with account records."
+    },
+    "billingFacts": [
+      {
+        "scope": {
+          "label": "Professional plan"
+        },
+        "reviewedAt": "2026-10-13T18:11:51.224Z",
+        "evidence": [
+          {
+            "title": "Official source reviewed for the reserved request",
+            "url": "https://help.figma.com/hc/en-us/articles/360041061034-Manage-billing-on-the-Professional-plan",
+            "sourceType": "official_docs",
+            "checkedAt": "2026-10-13T18:11:51.224Z"
+          }
+        ],
+        "kind": "billing_period",
+        "statement": "Extra paid seats on an annual Professional plan can be billed monthly until proactively added to the annual subscription."
+      }
+    ],
+    "decisionClaims": [
+      {
+        "scope": {
+          "label": "Professional plan"
+        },
+        "reviewedAt": "2026-10-13T18:11:51.224Z",
+        "evidence": [
+          {
+            "title": "Official decision source",
+            "url": "https://help.figma.com/hc/en-us/articles/360041061034-Manage-billing-on-the-Professional-plan",
+            "sourceType": "official_docs",
+            "checkedAt": "2026-10-13T18:11:51.224Z"
+          },
+          {
+            "title": "Official scoped context",
+            "url": "https://forum.figma.com/report-a-problem-6/how-can-i-add-an-existing-annual-dev-seat-to-my-professional-team-58492",
+            "sourceType": "official_docs",
+            "checkedAt": "2026-10-13T18:11:51.224Z"
+          }
+        ],
+        "section": "fit.keyTradeoffs",
+        "statement": "Professional annual teams can also have monthly paid seats; the general terms cannot establish an individual purchase entitlement.",
+        "status": "current"
+      }
+    ],
+    "resourceLinks": [],
+    "alternativeTools": []
+  }
+}

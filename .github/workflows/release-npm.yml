@@ -1,0 +1,290 @@
+name: Release npm package
+
+# Publishes @slothhub/cli and slothhub-mcp-server from this public repository
+# with npm trusted publishing (OIDC), npm provenance and staged publishing:
+# CI can only stage a version; a maintainer approves it with 2FA on npm.
+# See RELEASING.md for the one-time setup and the release procedure.
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/release-npm.yml'
+      - 'scripts/release/**'
+      - 'scripts/benchmarks/**'
+      - 'packages/**'
+      - 'tools/**'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - 'pnpm-workspace.yaml'
+  workflow_dispatch:
+  push:
+    tags:
+      - 'npm-cli-v*'
+      - 'npm-mcp-v*'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: npm-release-${{ github.ref }}
+  # Cancel obsolete PR dry runs; tagged publishing retains serialized execution.
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  dry-run:
+    name: Dry run ${{ matrix.target }}
+    if: >-
+      github.event_name == 'pull_request' ||
+      (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main')
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        target: [cli, mcp]
+
+    steps:
+      - name: Checkout release source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '24.22.2'
+          package-manager-cache: false
+          registry-url: 'https://registry.npmjs.org/'
+
+      - name: Pin pnpm
+        run: |
+          corepack enable
+          corepack prepare pnpm@12.16.1 --activate
+
+      # Dependency install scripts never run in a job that builds or hashes a
+      # package: no dependency here needs one (esbuild and Vite+ load their
+      # platform binaries from optional packages).
+      - name: Install locked dependencies without install scripts
+        run: pnpm install --frozen-lockfile --ignore-scripts --registry=https://registry.npmjs.org/
+
+      - name: Check the tree for forbidden content
+        run: node scripts/release/check-public-tree.mjs
+
+      - name: Verify release contracts
+        run: pnpm release:test
+
+      - name: Resolve dry-run tag
+        id: release-tag
+        env:
+          TARGET: ${{ matrix.target }}
+        run: |
+          case "$TARGET" in
+            cli) package_path='packages/sloth-cli/package.json' ;;
+            mcp) package_path='packages/slothhub-mcp-server/package.json' ;;
+            *) exit 1 ;;
+          esac
+          version="$(node -p "require('./${package_path}').version")"
+          echo "tag=npm-${TARGET}-v${version}" >> "$GITHUB_OUTPUT"
+
+      - name: Build, verify, pack, and install smoke test
+        env:
+          RELEASE_TAG: ${{ steps.release-tag.outputs.tag }}
+        run: >-
+          node scripts/release/prepare-release.mjs
+          --tag "$RELEASE_TAG"
+          --output "${{ runner.temp }}/npm-${{ matrix.target }}"
+          --dry-run
+
+      - name: Verify installed CLI and MCP workflows
+        if: matrix.target == 'mcp'
+        run: |
+          pnpm --filter @slothhub/cli build
+          node scripts/benchmarks/agent-client-readiness.mjs "${{ runner.temp }}/npm-mcp/client-readiness.json"
+
+      - name: Upload exact dry-run package
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: npm-${{ matrix.target }}-dry-run
+          path: ${{ runner.temp }}/npm-${{ matrix.target }}/
+          if-no-files-found: error
+          retention-days: 7
+          compression-level: 0
+          include-hidden-files: false
+
+  prepare-release:
+    name: Prepare tagged package
+    if: >-
+      github.event_name == 'push' &&
+      github.ref_type == 'tag' &&
+      github.ref_protected == true
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    outputs:
+      artifact_name: ${{ steps.release.outputs.artifact_name }}
+      environment: ${{ steps.release.outputs.environment }}
+      package_name: ${{ steps.release.outputs.package_name }}
+      tarball: ${{ steps.release.outputs.tarball }}
+      version: ${{ steps.release.outputs.version }}
+      sha256: ${{ steps.release.outputs.sha256 }}
+      tag: ${{ steps.release.outputs.tag }}
+
+    steps:
+      - name: Reject private-source tagged releases before setup
+        env:
+          REPOSITORY_PRIVATE: ${{ github.event.repository.private }}
+        run: |
+          if [ "$REPOSITORY_PRIVATE" != "false" ]; then
+            echo 'npm_provenance_unavailable: tagged publication requires public source; make the repository public or use a dry run.' >&2
+            exit 1
+          fi
+
+      - name: Checkout tagged release source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+
+      - name: Require a commit already on main
+        run: |
+          if ! git show-ref --verify --quiet refs/remotes/origin/main; then
+            echo 'origin/main is unavailable; refusing to prepare a release.' >&2
+            exit 1
+          fi
+          if ! git merge-base --is-ancestor "$GITHUB_SHA" origin/main; then
+            echo 'Release tags must point to a commit already reachable from origin/main.' >&2
+            exit 1
+          fi
+
+      - name: Set up Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '24.22.2'
+          package-manager-cache: false
+          registry-url: 'https://registry.npmjs.org/'
+
+      - name: Pin pnpm
+        run: |
+          corepack enable
+          corepack prepare pnpm@12.16.1 --activate
+
+      - name: Install locked dependencies without install scripts
+        run: pnpm install --frozen-lockfile --ignore-scripts --registry=https://registry.npmjs.org/
+
+      - name: Check the tree for forbidden content
+        run: node scripts/release/check-public-tree.mjs
+
+      - name: Verify release contracts
+        run: pnpm release:test
+
+      - name: Build, verify, pack, and install smoke test
+        id: release
+        run: >-
+          node scripts/release/prepare-release.mjs
+          --tag "$GITHUB_REF_NAME"
+          --output "${{ runner.temp }}/npm-release"
+          --tagged-release
+
+      - name: Upload exact release candidate
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: ${{ steps.release.outputs.artifact_name }}
+          path: ${{ runner.temp }}/npm-release/
+          if-no-files-found: error
+          retention-days: 7
+          compression-level: 0
+          include-hidden-files: false
+
+  publish:
+    name: Approve and stage ${{ needs.prepare-release.outputs.package_name }}
+    needs: prepare-release
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: ${{ needs.prepare-release.outputs.environment }}
+      url: https://www.npmjs.com/package/${{ needs.prepare-release.outputs.package_name }}
+    permissions:
+      id-token: write
+
+    steps:
+      - name: Set up Node.js for trusted publishing
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '24.22.2'
+          package-manager-cache: false
+          registry-url: 'https://registry.npmjs.org/'
+
+      - name: Download verified release candidate
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: ${{ needs.prepare-release.outputs.artifact_name }}
+          path: ${{ runner.temp }}/npm-release
+
+      - name: Recheck artifact digest and identity
+        env:
+          REPOSITORY_PRIVATE: ${{ github.event.repository.private }}
+          EXPECTED_SOURCE_REPOSITORY: ${{ github.repository }}
+          EXPECTED_PACKAGE: ${{ needs.prepare-release.outputs.package_name }}
+          EXPECTED_ENVIRONMENT: ${{ needs.prepare-release.outputs.environment }}
+          EXPECTED_SHA256: ${{ needs.prepare-release.outputs.sha256 }}
+          EXPECTED_TARBALL: ${{ needs.prepare-release.outputs.tarball }}
+          EXPECTED_TAG: ${{ needs.prepare-release.outputs.tag }}
+          EXPECTED_VERSION: ${{ needs.prepare-release.outputs.version }}
+          RELEASE_DIRECTORY: ${{ runner.temp }}/npm-release
+        run: |
+          node --input-type=module --eval '
+            import { createHash } from "node:crypto";
+            import { readFileSync, readdirSync } from "node:fs";
+            import { join } from "node:path";
+            if (process.env.REPOSITORY_PRIVATE !== "false") {
+              throw new Error("npm_provenance_unavailable: tagged publication requires verified public source.");
+            }
+            const directory = process.env.RELEASE_DIRECTORY;
+            const entries = readdirSync(directory).sort();
+            const expectedEntries = [
+              process.env.EXPECTED_TARBALL,
+              "npm-publish-dry-run.json",
+              "release-manifest.json",
+            ].sort();
+            if (JSON.stringify(entries) !== JSON.stringify(expectedEntries)) {
+              throw new Error(`Unexpected artifact files: ${entries.join(", ")}`);
+            }
+            const manifest = JSON.parse(readFileSync(join(directory, "release-manifest.json"), "utf8"));
+            const tarball = readFileSync(join(directory, process.env.EXPECTED_TARBALL));
+            const digest = createHash("sha256").update(tarball).digest("hex");
+            if (manifest.package !== process.env.EXPECTED_PACKAGE ||
+                manifest.environment !== process.env.EXPECTED_ENVIRONMENT ||
+                manifest.tag !== process.env.EXPECTED_TAG ||
+                manifest.version !== process.env.EXPECTED_VERSION ||
+                manifest.releaseMode !== "tagged" ||
+                manifest.provenance?.sourceRepository !== process.env.EXPECTED_SOURCE_REPOSITORY ||
+                manifest.provenance?.sourceVisibility !== "public" ||
+                manifest.provenance?.eligibility !== "eligible_unverified" ||
+                manifest.provenance?.registryVerification !== "not_performed" ||
+                manifest.tarball !== process.env.EXPECTED_TARBALL ||
+                manifest.registry !== "https://registry.npmjs.org/" ||
+                manifest.distTag !== "latest" ||
+                manifest.sha256 !== process.env.EXPECTED_SHA256 ||
+                digest !== process.env.EXPECTED_SHA256) {
+              throw new Error("Release artifact identity or digest does not match the approved candidate.");
+            }
+          '
+
+      - name: Stage through npm trusted publishing
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_DIRECTORY: ${{ runner.temp }}/npm-release
+          RELEASE_TARBALL: ${{ needs.prepare-release.outputs.tarball }}
+        run: |
+          visibility="$(gh api "repos/$GITHUB_REPOSITORY" --jq '.visibility')"
+          if [ "$visibility" != "public" ]; then
+            echo 'npm_provenance_unavailable: source is no longer verified public; use a dry run until public-source eligibility is restored.' >&2
+            exit 1
+          fi
+          npm stage publish \
+          --access public \
+          --ignore-scripts \
+          --provenance \
+          --tag latest \
+          --registry=https://registry.npmjs.org/ \
+          "${RELEASE_DIRECTORY}/${RELEASE_TARBALL}"

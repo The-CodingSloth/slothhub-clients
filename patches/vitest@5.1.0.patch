@@ -1,0 +1,12 @@
+diff --git a/dist/chunks/index.Bi0NXYPf.js b/dist/chunks/index.Bi0NXYPf.js
+--- a/dist/chunks/index.Bi0NXYPf.js
++++ b/dist/chunks/index.Bi0NXYPf.js
+@@ -1630,7 +1630,7 @@
+ 	async setupVM() {
+ 		populateNodeGlobals();
+ 		const vm = await import('node:vm');
+-		let context = vm.createContext();
++		let context = vm.createContext(vm.constants.DONT_CONTEXTIFY);
+ 		let global = vm.runInContext("this", context);
+ 		const contextGlobals = new Set(Object.getOwnPropertyNames(global));
+ 		for (const [nodeGlobalsKey, descriptor] of nodeGlobals) if (!contextGlobals.has(nodeGlobalsKey)) {

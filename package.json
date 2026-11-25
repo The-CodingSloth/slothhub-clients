@@ -1,0 +1,34 @@
+{
+  "name": "slothhub-clients",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Source of the SlothHub CLI (@slothhub/cli) and MCP server (slothhub-mcp-server).",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/The-CodingSloth/slothhub-clients.git"
+  },
+  "scripts": {
+    "build:domain": "pnpm --filter @slothhub/domain build",
+    "build": "pnpm build:domain && pnpm --filter @slothhub/cli build && pnpm --filter slothhub-mcp-server build",
+    "test": "pnpm --filter @slothhub/cli test && pnpm --filter slothhub-mcp-server test",
+    "type-check": "pnpm build:domain && pnpm --filter @slothhub/cli type-check && pnpm --filter slothhub-mcp-server type-check",
+    "test:agent-clients": "pnpm --filter @slothhub/cli build && pnpm --filter slothhub-mcp-server build && node scripts/benchmarks/agent-client-readiness.mjs",
+    "check:public-tree": "node scripts/release/check-public-tree.mjs",
+    "release:prepare": "node scripts/release/prepare-release.mjs",
+    "release:test": "node --test scripts/release/*.test.mjs"
+  },
+  "engines": {
+    "node": ">=24.22.2",
+    "pnpm": ">=12.16.1"
+  },
+  "packageManager": "pnpm@12.16.1",
+  "devDependencies": {
+    "@slothhub/domain": "workspace:*",
+    "cross-spawn": "7.0.6",
+    "esbuild": "^0.28.2",
+    "vite-plus": "catalog:",
+    "yaml": "^2.9.1",
+    "zod": "4.6.7"
+  }
+}

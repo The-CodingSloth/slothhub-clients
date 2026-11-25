@@ -1,0 +1,542 @@
+{
+  "name": "@slothhub/domain",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Shared catalog contracts bundled into the SlothHub CLI and MCP server at build time. Not published.",
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    "./advertised-catalog-feeds": {
+      "types": "./dist/advertisedCatalogFeeds.d.ts",
+      "default": "./dist/advertisedCatalogFeeds.js"
+    },
+    "./agent-handoff-shared": {
+      "types": "./dist/agentHandoffShared.d.ts",
+      "default": "./dist/agentHandoffShared.js"
+    },
+    "./agent-interface": {
+      "types": "./dist/agentInterface.d.ts",
+      "default": "./dist/agentInterface.js"
+    },
+    "./agent-interface-kinds": {
+      "types": "./dist/agentInterfaceKinds.d.ts",
+      "default": "./dist/agentInterfaceKinds.js"
+    },
+    "./agent-readiness-dispute": {
+      "types": "./dist/agentReadinessDispute.d.ts",
+      "default": "./dist/agentReadinessDispute.js"
+    },
+    "./agent-search": {
+      "types": "./dist/agentSearch.d.ts",
+      "default": "./dist/agentSearch.js"
+    },
+    "./agent-search-query-contract": {
+      "types": "./dist/agentSearchQueryContract.d.ts",
+      "default": "./dist/agentSearchQueryContract.js"
+    },
+    "./agent-setup-recipe-hosts": {
+      "types": "./dist/agentSetupRecipeHosts.d.ts",
+      "default": "./dist/agentSetupRecipeHosts.js"
+    },
+    "./agent-skill-source": {
+      "types": "./dist/agentSkillSource.d.ts",
+      "default": "./dist/agentSkillSource.js"
+    },
+    "./agent-workflows": {
+      "types": "./dist/agentWorkflows.d.ts",
+      "default": "./dist/agentWorkflows.js"
+    },
+    "./article-rich-text": {
+      "types": "./dist/articleRichText.d.ts",
+      "default": "./dist/articleRichText.js"
+    },
+    "./bounded-utf8-source": {
+      "types": "./dist/publicFeed/boundedUtf8Source.d.ts",
+      "default": "./dist/publicFeed/boundedUtf8Source.js"
+    },
+    "./brewfile-inventory": {
+      "types": "./dist/brewfileInventory.d.ts",
+      "default": "./dist/brewfileInventory.js"
+    },
+    "./canonical-json": {
+      "types": "./dist/canonicalJson.d.ts",
+      "default": "./dist/canonicalJson.js"
+    },
+    "./catalog-content-policy": {
+      "types": "./dist/catalogContentPolicy.d.ts",
+      "default": "./dist/catalogContentPolicy.js"
+    },
+    "./catalog-feedback": {
+      "types": "./dist/catalogFeedback.d.ts",
+      "default": "./dist/catalogFeedback.js"
+    },
+    "./catalog-freshness": {
+      "types": "./dist/catalogFreshnessSearch.d.ts",
+      "default": "./dist/catalogFreshnessSearch.js"
+    },
+    "./category-hierarchy": {
+      "types": "./dist/categoryHierarchy.d.ts",
+      "default": "./dist/categoryHierarchy.js"
+    },
+    "./common-licenses": {
+      "types": "./dist/commonLicenses.d.ts",
+      "default": "./dist/commonLicenses.js"
+    },
+    "./comparison-publication": {
+      "types": "./dist/comparisonPublication.d.ts",
+      "default": "./dist/comparisonPublication.js"
+    },
+    "./container-image": {
+      "types": "./dist/containerImage.d.ts",
+      "default": "./dist/containerImage.js"
+    },
+    "./content-hash": {
+      "types": "./dist/contentHash.d.ts",
+      "default": "./dist/contentHash.js"
+    },
+    "./content-signals": {
+      "types": "./dist/contentSignals.d.ts",
+      "default": "./dist/contentSignals.js"
+    },
+    "./contributor": {
+      "types": "./dist/contributor.d.ts",
+      "default": "./dist/contributor.js"
+    },
+    "./deals": {
+      "types": "./dist/deal.d.ts",
+      "default": "./dist/deal.js"
+    },
+    "./decision-receipt": {
+      "types": "./dist/decisionReceipt.d.ts",
+      "default": "./dist/decisionReceipt.js"
+    },
+    "./ecosystem-manifest-inventory": {
+      "types": "./dist/ecosystemManifestInventory.d.ts",
+      "default": "./dist/ecosystemManifestInventory.js"
+    },
+    "./editorial-recommendation-evidence": {
+      "types": "./dist/editorialRecommendationEvidence.d.ts",
+      "default": "./dist/editorialRecommendationEvidence.js"
+    },
+    "./feed-compatibility": {
+      "types": "./dist/feedCompatibility.d.ts",
+      "default": "./dist/feedCompatibility.js"
+    },
+    "./feed-origin": {
+      "types": "./dist/feedOrigin.d.ts",
+      "default": "./dist/feedOrigin.js"
+    },
+    "./gallery-image-review": {
+      "types": "./dist/galleryImageReview.d.ts",
+      "default": "./dist/galleryImageReview.js"
+    },
+    "./gallery-image-size": {
+      "types": "./dist/galleryImageSize.d.ts",
+      "default": "./dist/galleryImageSize.js"
+    },
+    "./gitlab-repository": {
+      "types": "./dist/gitlabRepository.d.ts",
+      "default": "./dist/gitlabRepository.js"
+    },
+    "./go-mod-inventory": {
+      "types": "./dist/goModInventory.d.ts",
+      "default": "./dist/goModInventory.js"
+    },
+    "./implementation-kit": {
+      "types": "./dist/implementationKit.d.ts",
+      "default": "./dist/implementationKit.js"
+    },
+    "./integration-status": {
+      "types": "./dist/integrationStatus.d.ts",
+      "default": "./dist/integrationStatus.js"
+    },
+    "./json-value": {
+      "types": "./dist/jsonValue.d.ts",
+      "default": "./dist/jsonValue.js"
+    },
+    "./language-support": {
+      "types": "./dist/languageSupport.d.ts",
+      "default": "./dist/languageSupport.js"
+    },
+    "./launch-readiness": {
+      "types": "./dist/launchReadiness.d.ts",
+      "default": "./dist/launchReadiness.js"
+    },
+    "./license-facts": {
+      "types": "./dist/licenseFacts.d.ts",
+      "default": "./dist/licenseFacts.js"
+    },
+    "./living-catalog-freshness": {
+      "types": "./dist/livingCatalogFreshness.d.ts",
+      "default": "./dist/livingCatalogFreshness.js"
+    },
+    "./markdown-safety": {
+      "types": "./dist/markdownSafety.d.ts",
+      "default": "./dist/markdownSafety.js"
+    },
+    "./mcp-registry": {
+      "types": "./dist/mcpRegistry.d.ts",
+      "default": "./dist/mcpRegistry.js"
+    },
+    "./mcp-registry-packages": {
+      "types": "./dist/mcpRegistryPackages.d.ts",
+      "default": "./dist/mcpRegistryPackages.js"
+    },
+    "./media-alt-text": {
+      "types": "./dist/mediaAltText.d.ts",
+      "default": "./dist/mediaAltText.js"
+    },
+    "./media-capture-freshness": {
+      "types": "./dist/mediaCaptureFreshness.d.ts",
+      "default": "./dist/mediaCaptureFreshness.js"
+    },
+    "./network-environment": {
+      "types": "./dist/networkEnvironment.d.ts",
+      "default": "./dist/networkEnvironment.js"
+    },
+    "./npm-manifest-inventory": {
+      "types": "./dist/npmManifestInventory.d.ts",
+      "default": "./dist/npmManifestInventory.js"
+    },
+    "./persona-cost-contract": {
+      "types": "./dist/personaCostContract.d.ts",
+      "default": "./dist/personaCostContract.js"
+    },
+    "./persona-cost-estimate": {
+      "types": "./dist/personaCostEstimate.d.ts",
+      "default": "./dist/personaCostEstimate.js"
+    },
+    "./product-limits": {
+      "types": "./dist/productLimits.d.ts",
+      "default": "./dist/productLimits.js"
+    },
+    "./programming-language-id": {
+      "types": "./dist/programmingLanguageId.d.ts",
+      "default": "./dist/programmingLanguageId.js"
+    },
+    "./project-tool-pin-manifest": {
+      "types": "./dist/projectToolPinManifest.d.ts",
+      "default": "./dist/projectToolPinManifest.js"
+    },
+    "./public-agent-url": {
+      "types": "./dist/publicAgentUrl.d.ts",
+      "default": "./dist/publicAgentUrl.js"
+    },
+    "./public-feed-catalog": {
+      "types": "./dist/publicFeed/catalog.d.ts",
+      "default": "./dist/publicFeed/catalog.js"
+    },
+    "./public-feed-content-identity": {
+      "types": "./dist/publicFeed/contentIdentity.d.ts",
+      "default": "./dist/publicFeed/contentIdentity.js"
+    },
+    "./public-feed-http": {
+      "types": "./dist/publicFeed/http.d.ts",
+      "default": "./dist/publicFeed/http.js"
+    },
+    "./public-feed-mcp-schemas": {
+      "types": "./dist/publicFeed/mcpSchemas.d.ts",
+      "default": "./dist/publicFeed/mcpSchemas.js"
+    },
+    "./public-feed-relationships": {
+      "types": "./dist/publicFeed/relationships.d.ts",
+      "default": "./dist/publicFeed/relationships.js"
+    },
+    "./public-feed-schemas": {
+      "types": "./dist/publicFeed/schemas.d.ts",
+      "default": "./dist/publicFeed/schemas.js"
+    },
+    "./public-feed-transport": {
+      "types": "./dist/publicFeedTransport.d.ts",
+      "default": "./dist/publicFeedTransport.js"
+    },
+    "./public-feed-types": {
+      "types": "./dist/publicFeed/types.d.ts",
+      "default": "./dist/publicFeed/types.js"
+    },
+    "./public-hostnames": {
+      "types": "./dist/publicHostnames.d.ts",
+      "default": "./dist/publicHostnames.js"
+    },
+    "./public-metadata": {
+      "types": "./dist/publicMetadata.d.ts",
+      "default": "./dist/publicMetadata.js"
+    },
+    "./public-text": {
+      "types": "./dist/publicText.d.ts",
+      "default": "./dist/publicText.js"
+    },
+    "./public-tool-deal": {
+      "types": "./dist/publicToolDeal.d.ts",
+      "default": "./dist/publicToolDeal.js"
+    },
+    "./public-tool-integration-fact": {
+      "types": "./dist/publicToolIntegrationFact.d.ts",
+      "default": "./dist/publicToolIntegrationFact.js"
+    },
+    "./public-tool-license-facts": {
+      "types": "./dist/publicToolLicenseFacts.d.ts",
+      "default": "./dist/publicToolLicenseFacts.js"
+    },
+    "./published-tool-feed-schemas": {
+      "types": "./dist/publishedToolFeedSchemas.d.ts",
+      "default": "./dist/publishedToolFeedSchemas.js"
+    },
+    "./published-tool-profile": {
+      "types": "./dist/publishedToolProfile.d.ts",
+      "default": "./dist/publishedToolProfile.js"
+    },
+    "./publisher": {
+      "types": "./dist/publisher.d.ts",
+      "default": "./dist/publisher.js"
+    },
+    "./registrable-domain": {
+      "types": "./dist/registrableDomain.d.ts",
+      "default": "./dist/registrableDomain.js"
+    },
+    "./registry-enrichment": {
+      "types": "./dist/registryEnrichment.d.ts",
+      "default": "./dist/registryEnrichment.js"
+    },
+    "./registry-handoffs": {
+      "types": "./dist/registryHandoffs.d.ts",
+      "default": "./dist/registryHandoffs.js"
+    },
+    "./registry-observation-freshness": {
+      "types": "./dist/registryObservationFreshness.d.ts",
+      "default": "./dist/registryObservationFreshness.js"
+    },
+    "./repository-observation": {
+      "types": "./dist/repositoryObservation.d.ts",
+      "default": "./dist/repositoryObservation.js"
+    },
+    "./reserved-root-slugs": {
+      "types": "./dist/reservedRootSlugs.d.ts",
+      "default": "./dist/reservedRootSlugs.js"
+    },
+    "./resource-identity": {
+      "types": "./dist/resourceIdentity.d.ts",
+      "default": "./dist/resourceIdentity.js"
+    },
+    "./resource-kind": {
+      "types": "./dist/resourceKind.d.ts",
+      "default": "./dist/resourceKind.js"
+    },
+    "./resource-relationship": {
+      "types": "./dist/resourceRelationship.d.ts",
+      "default": "./dist/resourceRelationship.js"
+    },
+    "./resource-submission-identity": {
+      "types": "./dist/resourceSubmissionIdentity.d.ts",
+      "default": "./dist/resourceSubmissionIdentity.js"
+    },
+    "./runnable-command": {
+      "types": "./dist/runnableCommand.d.ts",
+      "default": "./dist/runnableCommand.js"
+    },
+    "./runtime-requirements": {
+      "types": "./dist/runtimeRequirements.d.ts",
+      "default": "./dist/runtimeRequirements.js"
+    },
+    "./runtime-validation": {
+      "types": "./dist/runtimeValidation.d.ts",
+      "default": "./dist/runtimeValidation.js"
+    },
+    "./safe-diagnostic": {
+      "types": "./dist/safeDiagnostic.d.ts",
+      "default": "./dist/safeDiagnostic.js"
+    },
+    "./search-index-aliases": {
+      "types": "./dist/searchIndexAliases.d.ts",
+      "default": "./dist/searchIndexAliases.js"
+    },
+    "./security-capability": {
+      "types": "./dist/securityCapability.d.ts",
+      "default": "./dist/securityCapability.js"
+    },
+    "./sha256": {
+      "types": "./dist/sha256.d.ts",
+      "default": "./dist/sha256.js"
+    },
+    "./sloth-hub-prompt-names": {
+      "types": "./dist/slothHubPromptNames.d.ts",
+      "default": "./dist/slothHubPromptNames.js"
+    },
+    "./sloth-hub-tool-names": {
+      "types": "./dist/slothHubToolNames.d.ts",
+      "default": "./dist/slothHubToolNames.js"
+    },
+    "./source-availability-filter": {
+      "types": "./dist/sourceAvailabilityFilter.d.ts",
+      "default": "./dist/sourceAvailabilityFilter.js"
+    },
+    "./source-backed-fact": {
+      "types": "./dist/sourceBackedFact.d.ts",
+      "default": "./dist/sourceBackedFact.js"
+    },
+    "./source-reference": {
+      "types": "./dist/sourceReference.d.ts",
+      "default": "./dist/sourceReference.js"
+    },
+    "./supported-language": {
+      "types": "./dist/supportedLanguage.d.ts",
+      "default": "./dist/supportedLanguage.js"
+    },
+    "./tool-alternatives-review": {
+      "types": "./dist/toolAlternativesReview.d.ts",
+      "default": "./dist/toolAlternativesReview.js"
+    },
+    "./tool-assembly": {
+      "types": "./dist/toolAssembly.d.ts",
+      "default": "./dist/toolAssembly.js"
+    },
+    "./tool-decision-context-markdown": {
+      "types": "./dist/toolDecisionContextMarkdown.d.ts",
+      "default": "./dist/toolDecisionContextMarkdown.js"
+    },
+    "./tool-decision-summary": {
+      "types": "./dist/publicFeed/decisionSummary.d.ts",
+      "default": "./dist/publicFeed/decisionSummary.js"
+    },
+    "./tool-decision-support": {
+      "types": "./dist/toolDecisionSupport.d.ts",
+      "default": "./dist/toolDecisionSupport.js"
+    },
+    "./tool-deployment": {
+      "types": "./dist/toolDeployment.d.ts",
+      "default": "./dist/toolDeployment.js"
+    },
+    "./tool-editions": {
+      "types": "./dist/toolEditions.d.ts",
+      "default": "./dist/toolEditions.js"
+    },
+    "./tool-fact-labels": {
+      "types": "./dist/toolFactLabels.d.ts",
+      "default": "./dist/toolFactLabels.js"
+    },
+    "./tool-feature-capability-list": {
+      "types": "./dist/toolFeatureCapabilityList.d.ts",
+      "default": "./dist/toolFeatureCapabilityList.js"
+    },
+    "./tool-feature-content": {
+      "types": "./dist/toolFeatureContent.d.ts",
+      "default": "./dist/toolFeatureContent.js"
+    },
+    "./tool-feature-details": {
+      "types": "./dist/toolFeatureDetails.d.ts",
+      "default": "./dist/toolFeatureDetails.js"
+    },
+    "./tool-feature-details-markdown": {
+      "types": "./dist/toolFeatureDetailsMarkdown.d.ts",
+      "default": "./dist/toolFeatureDetailsMarkdown.js"
+    },
+    "./tool-feature-diff": {
+      "types": "./dist/toolFeatureDiff.d.ts",
+      "default": "./dist/toolFeatureDiff.js"
+    },
+    "./tool-feature-image": {
+      "types": "./dist/toolFeatureImage.d.ts",
+      "default": "./dist/toolFeatureImage.js"
+    },
+    "./tool-feature-install": {
+      "types": "./dist/toolFeatureInstall.d.ts",
+      "default": "./dist/toolFeatureInstall.js"
+    },
+    "./tool-fit-guidance": {
+      "types": "./dist/toolFitGuidance.d.ts",
+      "default": "./dist/toolFitGuidance.js"
+    },
+    "./tool-identity-review": {
+      "types": "./dist/toolIdentityReview.d.ts",
+      "default": "./dist/toolIdentityReview.js"
+    },
+    "./tool-lifecycle": {
+      "types": "./dist/toolLifecycle.d.ts",
+      "default": "./dist/toolLifecycle.js"
+    },
+    "./tool-lifecycle-markdown": {
+      "types": "./dist/toolLifecycleMarkdown.d.ts",
+      "default": "./dist/toolLifecycleMarkdown.js"
+    },
+    "./tool-logo-treatment": {
+      "types": "./dist/toolLogoTreatment.d.ts",
+      "default": "./dist/toolLogoTreatment.js"
+    },
+    "./tool-lookup": {
+      "types": "./dist/toolLookup.d.ts",
+      "default": "./dist/toolLookup.js"
+    },
+    "./tool-lookup-suggestions": {
+      "types": "./dist/toolLookupSuggestions.d.ts",
+      "default": "./dist/toolLookupSuggestions.js"
+    },
+    "./tool-portability": {
+      "types": "./dist/toolPortability.d.ts",
+      "default": "./dist/toolPortability.js"
+    },
+    "./tool-portability-markdown": {
+      "types": "./dist/toolPortabilityMarkdown.d.ts",
+      "default": "./dist/toolPortabilityMarkdown.js"
+    },
+    "./tool-pricing-cost-basis": {
+      "types": "./dist/toolPricingCostBasis.d.ts",
+      "default": "./dist/toolPricingCostBasis.js"
+    },
+    "./tool-pricing-evidence": {
+      "types": "./dist/toolPricingEvidence.d.ts",
+      "default": "./dist/toolPricingEvidence.js"
+    },
+    "./tool-quickstart": {
+      "types": "./dist/toolQuickstart.d.ts",
+      "default": "./dist/toolQuickstart.js"
+    },
+    "./tool-stack-recipe": {
+      "types": "./dist/toolStackRecipe.d.ts",
+      "default": "./dist/toolStackRecipe.js"
+    },
+    "./tool-trial-terms": {
+      "types": "./dist/toolTrialTerms.d.ts",
+      "default": "./dist/toolTrialTerms.js"
+    },
+    "./tool-website-identity": {
+      "types": "./dist/toolWebsiteIdentity.d.ts",
+      "default": "./dist/toolWebsiteIdentity.js"
+    },
+    "./ui-component": {
+      "types": "./dist/uiComponent.d.ts",
+      "default": "./dist/uiComponent.js"
+    },
+    "./ui-component-prompt": {
+      "types": "./dist/uiComponentPrompt.d.ts",
+      "default": "./dist/uiComponentPrompt.js"
+    },
+    "./ui-component-registry": {
+      "types": "./dist/uiComponentRegistry.d.ts",
+      "default": "./dist/uiComponentRegistry.js"
+    },
+    "./url-safety": {
+      "types": "./dist/urlSafety.d.ts",
+      "default": "./dist/urlSafety.js"
+    }
+  },
+  "scripts": {
+    "build": "vp run build:library"
+  },
+  "dependencies": {
+    "decimal.js": "10.6.0",
+    "semver": "7.8.5",
+    "smol-toml": "1.9.1",
+    "spdx-expression-parse": "5.0.0",
+    "spdx-license-ids": "3.0.24",
+    "tldts": "7.4.19",
+    "yaml": "2.9.1",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "26.6.4",
+    "@types/semver": "7.8.0",
+    "typescript-7": "npm:typescript@^7.0.2",
+    "vite-plus": "catalog:"
+  }
+}

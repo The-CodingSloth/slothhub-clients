@@ -1,0 +1,65 @@
+{
+  "usage.unknownCommand": {
+    "code": "invalid_input",
+    "message": "Unknown command: frobnicate.",
+    "recovery": "Run slothhub --help for supported commands.",
+    "ok": false
+  },
+  "usage.unknownFlag": {
+    "code": "invalid_input",
+    "message": "Unknown flag: --bogus. See --help for supported options.",
+    "recovery": "Correct the command arguments and try again.",
+    "ok": false
+  },
+  "usage.missingToolArgument": {
+    "code": "invalid_input",
+    "message": "Tool slug is required.",
+    "recovery": "Pass a public Tool slug or a supported namespace:value key.",
+    "ok": false
+  },
+  "usage.invalidLimit": {
+    "code": "agent_search_result_limit_out_of_range",
+    "message": "Search result limit must be between 1 and 50 (observed 51).",
+    "recovery": "Use a whole-number result limit between 1 and 50.",
+    "observedValue": 51,
+    "filter": "limit",
+    "configuredLimit": 50,
+    "ok": false
+  },
+  "runtime.notFound": {
+    "code": "not_found",
+    "message": "Tool not found: missing-tool",
+    "recovery": "Run slothhub search <query> to find a valid slug.",
+    "ok": false
+  },
+  "runtime.transport": {
+    "code": "transport",
+    "message": "Unable to load feed /api/index.json from https://slothhub.dev.",
+    "path": "/api/index.json",
+    "recovery": "Check that https://slothhub.dev is reachable, or point the CLI at another SlothHub origin with --base-url <origin> or SLOTHHUB_BASE_URL, then try again.",
+    "ok": false
+  },
+  "runtime.hostBlocked": {
+    "code": "feed_host_blocked",
+    "message": "HTTP 403: request blocked by the host's traffic protection (x-vercel-mitigated: challenge)",
+    "path": "/api/index.json",
+    "httpStatus": 403,
+    "mitigation": "challenge",
+    "recovery": "SlothHub's host blocked this automated request, usually after a burst of requests from the same network. Wait a few minutes, then retry with fewer parallel sessions. A CLI or MCP client cannot complete a browser challenge.",
+    "ok": false
+  },
+  "runtime.unsupportedVersion": {
+    "code": "unsupported_version",
+    "message": "Feed version 99.0.0 is unsupported; this client supports 33.x. Upgrade the client, then retry.",
+    "supportedVersion": "33.x",
+    "observedVersion": "99.0.0",
+    "recovery": "Upgrade the CLI with npm install -g @slothhub/cli@latest, then retry.",
+    "ok": false
+  },
+  "runtime.unsupportedNode": {
+    "code": "unsupported_runtime",
+    "message": "slothhub requires Node.js >=22.12.0.",
+    "recovery": "Run slothhub on a supported Node.js version and retry.",
+    "ok": false
+  }
+}
