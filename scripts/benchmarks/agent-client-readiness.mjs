@@ -19,7 +19,15 @@ const root = fileURLToPath(new URL('../../', import.meta.url));
 const output = process.argv[2];
 const startedAt = performance.now();
 const temporaryRoot = await mkdtemp(join(tmpdir(), 'slothhub-client-readiness-'));
-const directory = join(temporaryRoot, 'Client workspace 空格 & tools');
+// npm writes each bin's Windows .cmd shim with an unquoted `SET dp0=%~dp0`, so
+// an `&` (cmd.exe's command separator) anywhere above node_modules\.bin splits
+// that line and the shim runs a path fragment instead of the bin. Every npm bin
+// fails that way, whatever the package. On Windows the install path keeps
+// spaces, Unicode and the parentheses of "Program Files (x86)"; the `&` moves to
+// the CLI cache directory, which the clients' own code reads and writes.
+const directory = join(temporaryRoot, process.platform === 'win32'
+  ? 'Client workspace 空格 (x86) tools' : 'Client workspace 空格 & tools');
+const cacheHome = join(directory, 'cache 空格 & state');
 await mkdir(directory);
 const requireMcp = createRequire(join(root, 'packages/slothhub-mcp-server/package.json'));
 const {Client} = await import(pathToFileURL(requireMcp.resolve('@modelcontextprotocol/client')).href);
@@ -144,7 +152,7 @@ let cliPath;
 let mcpPath;
 const cli = async (args, expectedCode = 0) => {
   const result = await run(process.execPath, [cliPath, ...args, '--base-url', baseUrl, '--json'], {
-    env: {...process.env, XDG_CACHE_HOME: join(directory, 'cache')}, commandBudgetMs: 3 * PUBLIC_FEED_TIMEOUT_MS,
+    env: {...process.env, XDG_CACHE_HOME: cacheHome}, commandBudgetMs: 3 * PUBLIC_FEED_TIMEOUT_MS,
   });
   assert.equal(result.code, expectedCode, result.stderr || result.stdout);
   const parsed = jsonObject.parse(JSON.parse(result.stdout || result.stderr));
@@ -352,5 +360,6 @@ try {
 } finally {
   server.closeAllConnections();
   await new Promise((resolveClose) => server.close(resolveClose));
-  await rm(temporaryRoot, {recursive: true, force: true});
+  // Windows releases file handles of exited children a moment later.
+  await rm(temporaryRoot, {recursive: true, force: true, maxRetries: 10});
 }
